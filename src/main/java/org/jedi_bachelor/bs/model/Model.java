@@ -4,13 +4,10 @@ import jakarta.annotation.PostConstruct;
 
 import org.jedi_bachelor.bs.factory.BookFactory;
 
-import org.jedi_bachelor.bs.utils.BinFileReader;
-import org.jedi_bachelor.bs.utils.BinFileWriter;
+import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -18,50 +15,20 @@ public class Model {
     @Autowired
     private BookFactory bookFactory;
 
-    /*
-    * Чтецы и писцы бинарных файлов
-     */
-    // Для книг
-    @Autowired
-    @Qualifier("bfrBooks")
-    private BinFileReader<Map<Long, Book>> bfrBooks;
-    @Autowired
-    @Qualifier("bfwBooks")
-    private BinFileWriter<Map<Long, Book>> bfwBooks;
-
-    // Для темпов чтения книг
-    @Autowired
-    @Qualifier("bfrBooksSpeed")
-    private BinFileReader<Map<Date, Integer>> bfrBooksSpeed;
-    @Autowired
-    @Qualifier("bfwBooksSpeed")
-    private BinFileWriter<Map<Date, Integer>> bfwBooksSpeed;
-
-    // Для статистики чтения книг
-    @Autowired
-    @Qualifier("bfrBooksStat")
-    private BinFileReader<Map<Date, Integer>> bfrBooksStat;
-    @Autowired
-    @Qualifier("bfwBooksStat")
-    private BinFileWriter<Map<Date, Integer>> bfwBooksStat;
-
     private Map<Long, Book> books;
     private Map<Date, Integer> monthSpeed;
     private Map<Date, Integer> monthStat;
 
+    @Autowired
+    private DataBaseConnectivity dataBaseConnectivity;
+
     @PostConstruct
     private void init() {
-        books = bfrBooks.getObject();
-        if(books == null)
-            books = new HashMap<>();
+        books = dataBaseConnectivity.getBooks();
 
-        monthStat = bfrBooksStat.getObject();
-        if(monthStat == null)
-            monthStat = new HashMap<>();
+        monthStat = dataBaseConnectivity.getMonthStat();
 
-        monthSpeed = bfrBooksSpeed.getObject();
-        if(monthSpeed == null)
-            monthSpeed = new HashMap<>();
+        monthSpeed = dataBaseConnectivity.getSpeedStat();
     }
 
     // Метод для изменения
@@ -126,14 +93,14 @@ public class Model {
     }
 
     private void updateFileBooks() {
-        bfwBooks.setObject(books);
-        bfwBooks.write();
+        dataBaseConnectivity.updateData(this.books, this.monthStat, this.monthSpeed);
+    }
 
-        //System.out.println(monthTemps);
-        bfwBooksSpeed.setObject(monthSpeed);
-        bfwBooksSpeed.write();
+    public void setBookFactory(BookFactory bookFactory) {
+        this.bookFactory = bookFactory;
+    }
 
-        bfwBooksStat.setObject(monthStat);
-        bfwBooksStat.write();
+    public void setDataBaseConnectivity(DataBaseConnectivity dataBaseConnectivity) {
+        this.dataBaseConnectivity = dataBaseConnectivity;
     }
 }

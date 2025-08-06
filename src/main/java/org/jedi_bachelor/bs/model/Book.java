@@ -1,5 +1,6 @@
 package org.jedi_bachelor.bs.model;
 
+import jakarta.persistence.*;
 import org.jedi_bachelor.bs.exceptions.AllPagesLowThanCompleteException;
 import org.jedi_bachelor.bs.exceptions.NegativePagesException;
 import org.springframework.context.annotation.Scope;
@@ -9,23 +10,35 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Component
+@Entity
 @Scope("prototype")
+@Table(name="books")
 public class Book implements Serializable, Comparable<Book> {
     static long countOfBooks = 0;
 
+    @Id
+    @Column(name="id")
     private long id;
+    @Column(name="name")
     private String name;
+    @Column(name="author")
     private String author;
 
+    @Column(name="complete_pages")
     private int completePages;
+    @Column(name="all_pages")
     private int allPages;
+    @Column(name="percent_of_readed")
     private float procentOfReaded;
 
+    @Column(name="start_of_reading")
     private LocalDate startOfReading;
+    @Column(name="end_of_reading")
     private LocalDate endOfReading;
 
+    @Column(name="rating")
+    @Enumerated(EnumType.STRING)
     private Rating rating;
-    private String description;
 
     public Book() {
 
@@ -139,14 +152,6 @@ public class Book implements Serializable, Comparable<Book> {
 
     public void setRating(Rating rating) {
         this.rating = rating;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void calculateProcentOfReaded() {
