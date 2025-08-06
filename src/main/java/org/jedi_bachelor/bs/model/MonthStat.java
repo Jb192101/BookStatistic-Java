@@ -21,6 +21,10 @@ public class MonthStat {
 
     private Date date; // транзитное поле
 
+    public MonthStat() {
+
+    }
+
     public MonthStat(Date date, int countOfReaded) {
         this.date = date;
         this.month = date.getMonth();

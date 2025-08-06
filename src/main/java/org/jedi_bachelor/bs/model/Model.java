@@ -36,7 +36,6 @@ public class Model {
         if(book == null)
             return;
 
-
         int changedPages = 0;
         long id = book.getId();
         Book medBook = this.books.get(id);
@@ -64,14 +63,30 @@ public class Model {
     }
 
     private void addPagesAtMonthStat(int _changed) {
-        if(!monthStat.containsKey(Date.now()))
+        boolean isKey = false;
+        for(Date d : monthStat.keySet()) {
+            if(d.equals(Date.now())) {
+                isKey = true;
+                break;
+            }
+        }
+
+        if(!isKey)
             monthStat.put(Date.now(), _changed);
         else
             monthStat.put(Date.now(), monthStat.get(Date.now()) + _changed);
     }
 
     private void addPagesAtMonthSpeed(int _changed) {
-        if(!monthSpeed.containsKey(Date.now()))
+        boolean isKey = false;
+        for(Date d : monthSpeed.keySet()) {
+            if(d.equals(Date.now())) {
+                isKey = true;
+                break;
+            }
+        }
+
+        if(!isKey)
             monthSpeed.put(Date.now(), _changed);
         else
             monthSpeed.put(Date.now(), monthSpeed.get(Date.now()) + _changed);

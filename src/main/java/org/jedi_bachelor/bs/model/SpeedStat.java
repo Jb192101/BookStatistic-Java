@@ -17,15 +17,16 @@ public class SpeedStat {
     @Column(name = "year")
     private int year;
 
-    private Date date;
-
     @Column(name="count")
     private int countOfReaded;
+
+    public SpeedStat() {
+
+    }
 
     public SpeedStat(@NotNull Date date, int countOfReaded) {
         this.month = date.getMonth();
         this.year = date.getYear();
-        this.date = date;
         this.countOfReaded = countOfReaded;
     }
 
@@ -34,11 +35,12 @@ public class SpeedStat {
     }
 
     public Date getDate() {
-        return date;
+        return new Date(this.month, this.year);
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.month = date.getMonth();
+        this.year = date.getYear();
     }
 
     public void setCountOfReaded(int countOfReaded) {

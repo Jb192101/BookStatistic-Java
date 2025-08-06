@@ -3,6 +3,7 @@ package org.jedi_bachelor.bs.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Date implements Serializable {
     private int month;
@@ -20,8 +21,8 @@ public class Date implements Serializable {
     }
 
     public static Date now() {
-        int month = LocalDate.now().getDayOfMonth();
-        int year = LocalDate.now().getDayOfYear();
+        int month = LocalDate.now().getMonthValue();
+        int year = LocalDate.now().getYear();
 
         return new Date(month, year);
     }
@@ -46,5 +47,18 @@ public class Date implements Serializable {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Date date = (Date) o;
+        return month == date.month && year == date.year;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(month, year);
     }
 }

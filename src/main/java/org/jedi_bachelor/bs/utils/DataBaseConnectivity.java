@@ -1,7 +1,5 @@
 package org.jedi_bachelor.bs.utils;
 
-import jakarta.transaction.Transactional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -34,23 +32,27 @@ public class DataBaseConnectivity implements DataConnectivity {
     }
 
     // Обновление всех данных
-    @Transactional
     public void updateData(Map<Long, Book> listBooks, Map<Date, Integer> listStat, Map<Date, Integer> listSpeed) {
         Session session = factory.getCurrentSession();
         session.beginTransaction();
 
         for (Book b : listBooks.values()) {
-            session.persist(b);
+            session.merge(b);
         }
 
-        for (Date d : listStat.keySet()) {
-            MonthStat m = new MonthStat(d, listStat.get(d));
-            session.persist(m);
+        if(listStat != null) {
+            for (Date d : listStat.keySet()) {
+                MonthStat m = new MonthStat(d, listStat.get(d));
+                session.merge(m);
+            }
         }
 
-        for (Date d : listSpeed.keySet()) {
-            SpeedStat m = new SpeedStat(d, listStat.get(d));
-            session.persist(m);
+        //System.out.println(listSpeed);
+        if(listSpeed != null) {
+            for (Date d : listSpeed.keySet()) {
+                SpeedStat m = new SpeedStat(d, listSpeed.get(d));
+                session.merge(m);
+            }
         }
 
         session.getTransaction().commit();

@@ -161,4 +161,20 @@ public class Book implements Serializable, Comparable<Book> {
     public float getProcentOfReaded() {
         return procentOfReaded;
     }
+
+    // для отладки
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", completePages=" + completePages +
+                ", allPages=" + allPages +
+                ", procentOfReaded=" + procentOfReaded +
+                ", startOfReading=" + startOfReading +
+                ", endOfReading=" + endOfReading +
+                ", rating=" + rating +
+                '}';
+    }
 }
