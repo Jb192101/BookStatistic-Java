@@ -3,7 +3,9 @@ package org.jedi_bachelor.bs.viewmodel;
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.view.InputDataWindow;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InputDataViewModel extends LocalViewModel implements InteractViewModelInterface {
     private Book newBook;
     @Qualifier("mainViewModel")
@@ -24,15 +26,7 @@ public class InputDataViewModel extends LocalViewModel implements InteractViewMo
         this.newBook = _newBook;
 
         mvm.updateBookModel(this.newBook);
-    }
 
-    @Override
-    public void openWindow() {
-        this.window.show();
-    }
-
-    @Override
-    public void closeWindow() {
-        this.window.close();
+        mvm.fillingTable(mvm.getDataList());
     }
 }

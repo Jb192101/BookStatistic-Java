@@ -121,14 +121,13 @@ public class MainWindow extends Stage {
         Button statMonthButton = new Button("Статистика");
         Button statTempsButton = new Button("Скорость чтения");
 
-        addButton.setOnAction(e -> {
-            mvm.openInputDataWindow();
-            mvm.fillingTable(data);});
+        addButton.setOnAction(e ->
+            mvm.openInputDataWindow()
+        );
 
-        editButton.setOnAction(e -> {
-            mvm.openInputIndexWindow();
-            mvm.fillingTable(data);
-        });
+        editButton.setOnAction(e ->
+            mvm.openInputIndexWindow()
+        );
 
         buttonPanel.getChildren().addAll(addButton, editButton, statMonthButton, statTempsButton);
 
@@ -141,9 +140,13 @@ public class MainWindow extends Stage {
         bottomPanel.setPadding(new Insets(10));
         bottomPanel.setAlignment(Pos.BOTTOM_RIGHT);
 
-        Label booksCountLabel = new Label("Всего прочитано" + mvm.getCountCompleteBooks());
+        Label booksCountLabel = new Label("Всего прочитано: " + mvm.getCountCompleteBooks());
         bottomPanel.getChildren().add(booksCountLabel);
 
         ((VBox) root.getBottom()).getChildren().add(bottomPanel);
+    }
+
+    public ObservableList<Book> getData() {
+        return data;
     }
 }

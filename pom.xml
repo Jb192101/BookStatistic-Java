@@ -87,6 +87,7 @@
 					<include>**/*.properties</include>
 					<include>**/*.png</include>
 					<include>**/*.cfg.xml</include>
+					<include>**/*.txt</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>

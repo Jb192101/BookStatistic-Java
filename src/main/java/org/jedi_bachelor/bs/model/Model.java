@@ -52,10 +52,12 @@ public class Model {
 
             this.books.remove(id, medBook);
             this.books.put(id, book);
+
+            updateFileBooks();
         }
     }
 
-    public Book searchBook(int id) {
+    public Book searchBook(long id) {
         if(this.books.containsKey(id))
             return this.books.get(id);
 

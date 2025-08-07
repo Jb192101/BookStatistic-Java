@@ -1,6 +1,7 @@
 package org.jedi_bachelor.bs.viewmodel;
 
 import org.jedi_bachelor.bs.view.SplashScreen;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
@@ -8,11 +9,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SplashViewModel implements InteractWindowsInterface {
-    private SplashScreen splashScreen = new SplashScreen();
+    private SplashScreen splashScreen;
+    @Autowired
     @Qualifier("mainViewModel")
     private final MainViewModel mvm;
 
-    public SplashViewModel(MainViewModel _mvm) {
+    public SplashViewModel(MainViewModel _mvm, String pathToSplashScreen) {
+        this.splashScreen = new SplashScreen(pathToSplashScreen);
         this.mvm = _mvm;
     }
 

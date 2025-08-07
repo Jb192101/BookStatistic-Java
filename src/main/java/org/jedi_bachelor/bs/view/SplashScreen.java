@@ -1,5 +1,6 @@
 package org.jedi_bachelor.bs.view;
 
+import jakarta.annotation.PostConstruct;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -12,13 +13,12 @@ import java.util.Objects;
 
 public class SplashScreen extends Stage {
     private ProgressBar progressBar;
-    private final String path = "/images/splash.png";
 
-    public SplashScreen() {
-        setupUI();
+    public SplashScreen(String pathToSplashScreen) {
+        setupUI(pathToSplashScreen);
     }
 
-    private void setupUI() {
+    private void setupUI(String path) {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         ImageView splashImage = new ImageView(image);
         splashImage.setFitWidth(600);

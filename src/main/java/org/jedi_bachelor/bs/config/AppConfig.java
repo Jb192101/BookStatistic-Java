@@ -3,9 +3,7 @@ package org.jedi_bachelor.bs.config;
 import org.jedi_bachelor.bs.factory.BookFactory;
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
-import org.jedi_bachelor.bs.viewmodel.InputDataViewModel;
-import org.jedi_bachelor.bs.viewmodel.MainViewModel;
-import org.jedi_bachelor.bs.viewmodel.SplashViewModel;
+import org.jedi_bachelor.bs.viewmodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,13 +39,29 @@ public class AppConfig {
     }
 
     @Bean
+    public AboutProjectViewModel aboutProjectViewModel(MainViewModel mainViewModel) {
+        return new AboutProjectViewModel(mainViewModel, paths.getPathToImageAuthorOfProject(),
+                paths.getPathToDescriptionOfProject());
+    }
+
+    @Bean
     public SplashViewModel splashViewModel(MainViewModel mainViewModel) {
-        return new SplashViewModel(mainViewModel);
+        return new SplashViewModel(mainViewModel, paths().getPathToImageSplashScreen());
     }
 
     @Bean
     public InputDataViewModel inputDataViewModel(MainViewModel mainViewModel) {
         return new InputDataViewModel(mainViewModel);
+    }
+
+    @Bean
+    public ChangeViewModel changeViewModel(MainViewModel mainViewModel) {
+        return new ChangeViewModel(mainViewModel);
+    }
+
+    @Bean
+    public InputIndexViewModel inputIndexViewModel(MainViewModel mainViewModel) {
+        return new InputIndexViewModel(mainViewModel);
     }
 
     @Bean

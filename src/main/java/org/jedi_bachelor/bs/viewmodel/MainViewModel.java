@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.model.Book;
 
@@ -26,12 +27,18 @@ public class MainViewModel implements InteractWindowsInterface {
     }
 
     // ViewModel-ы
-    //private AboutViewModel avm;
+    @Autowired
+    @Qualifier("aboutProjectViewModel")
+    private AboutProjectViewModel avm;
     @Autowired
     @Qualifier("inputDataViewModel")
     private InputDataViewModel idvm;
-    //private InputIndexViewModel iivm;
-    //private ChangeViewModel cvm;
+    @Autowired
+    @Qualifier("inputIndexViewModel")
+    private InputIndexViewModel iivm;
+    @Autowired
+    @Qualifier("changeViewModel")
+    private ChangeViewModel cvm;
     //private MonthStatViewModel msvm;
     //private MonthTempsViewModel mtvm;
     //private SettingsViewModel svm;
@@ -58,15 +65,15 @@ public class MainViewModel implements InteractWindowsInterface {
     }
 
     public void openAboutWindow() {
-        //avm.openWindow();
+        Platform.runLater(() -> avm.openWindow());
     }
 
     /*
     Методы работы в MainWindow
      */
 
-    public void fillingTable(ObservableList<Book> _data) {
-        _data.clear();
+    public void fillingTable(ObservableList<Book> data) {
+        data.clear();
 
         try {
             Map<Long, Book> bookList = model.getBooks();
@@ -75,7 +82,7 @@ public class MainViewModel implements InteractWindowsInterface {
             }
 
             for (long i : bookList.keySet()) {
-                _data.add(bookList.get(i));
+                data.add(bookList.get(i));
             }
         } catch(NullPointerException ex) {
             ex.printStackTrace();
@@ -99,22 +106,23 @@ public class MainViewModel implements InteractWindowsInterface {
         idvm.openWindow();
     }
 
-    public void openChangeWindow(int _index) {
-        //Book changedBook = searchBookByID(_index);
-        //System.out.println(changedBook);
-        //if(changedBook != null) {
-        //    cvm.setBookWithoutClosingWindow(changedBook);
-        //    iivm.closeWindow();
-        //    cvm.openWindow();
-        //} else {
-        //    // Вывод сообщения об ошибке
-        //    alertWindow  = new Alert(Alert.AlertType.CONFIRMATION, LocaleManager.getString("ERROR_MESSAGE_INDEX"), ButtonType.OK);
-        //    alertWindow.showAndWait();
-        //}
+    public void openChangeWindow(int index) {
+        Book changedBook = searchBookByID(index);
+        System.out.println(changedBook);
+        if(changedBook != null) {
+            cvm.setBookWithoutClosingWindow(changedBook);
+            iivm.closeWindow();
+            cvm.openWindow();
+        } else {
+            // Вывод сообщения об ошибке
+            alertWindow  = new Alert(Alert.AlertType.CONFIRMATION, "Ошибка!", ButtonType.OK);
+            alertWindow.showAndWait();
+        }
+        fillingTable(getDataList());
     }
 
     public void openInputIndexWindow() {
-        //iivm.openWindow();
+        iivm.openWindow();
     }
 
     public void openMonthStatWindow() {
@@ -143,6 +151,7 @@ public class MainViewModel implements InteractWindowsInterface {
 
     public void changeBook(Book _book) {
         this.model.changeBook(_book);
+        fillingTable(getDataList());
     }
 
     /*
@@ -166,5 +175,9 @@ public class MainViewModel implements InteractWindowsInterface {
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+    public ObservableList<Book> getDataList() {
+        return this.mainWindow.getData();
     }
 }
