@@ -10,4 +10,4 @@
 Архитектура: MVVM.
 
 ## Важное уточнение:
-Программа работает на локальной базе данных (см. hibernate.cfg.xml), поэтому если хотите работать с приложением, воспользуйтесь СУБД PostgreSQL.
+Программа работает на локальной базе данных (см. [hibernate.cfg.xml](https://github.com/Jb192101/BookStatistic-Java/blob/main/src/main/resources/hibernate.cfg.xml)), поэтому если хотите работать с приложением, воспользуйтесь СУБД PostgreSQL.
