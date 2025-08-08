@@ -9,10 +9,14 @@ import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.viewmodel.ChangeViewModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.time.LocalDate;
 
 public class ChangeWindow extends View {
+    @Autowired
+    @Qualifier("changeViewModel")
     private final ChangeViewModel cvm;
 
     protected final TextField titleField = new TextField();
@@ -22,8 +26,8 @@ public class ChangeWindow extends View {
     protected final Label errorLabel = new Label();
     protected Button addButton;
 
-    public ChangeWindow(ChangeViewModel _cvm) {
-        this.cvm = _cvm;
+    public ChangeWindow(ChangeViewModel cvm) {
+        this.cvm = cvm;
         initModality(Modality.WINDOW_MODAL);
         setTitle("Изменение книги");
         initStyle(StageStyle.UTILITY);

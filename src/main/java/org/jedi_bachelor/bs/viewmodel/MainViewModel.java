@@ -1,12 +1,15 @@
 package org.jedi_bachelor.bs.viewmodel;
 
 import jakarta.annotation.PostConstruct;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.model.Book;
+import org.jedi_bachelor.bs.model.Date;
 
 import org.jedi_bachelor.bs.view.MainWindow;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +42,15 @@ public class MainViewModel implements InteractWindowsInterface {
     @Autowired
     @Qualifier("changeViewModel")
     private ChangeViewModel cvm;
-    //private MonthStatViewModel msvm;
-    //private MonthTempsViewModel mtvm;
-    //private SettingsViewModel svm;
+    @Autowired
+    @Qualifier("monthStatViewModel")
+    private MonthStatViewModel msvm;
+    @Autowired
+    @Qualifier("speedStatViewModel")
+    private SpeedStatViewModel mtvm;
+    @Autowired
+    @Qualifier("settingsViewModel")
+    private SettingsViewModel svm;
     @Autowired
     @Qualifier("splashViewModel")
     private SplashViewModel splashViewModel;
@@ -103,7 +112,7 @@ public class MainViewModel implements InteractWindowsInterface {
 
     // Открытие окна для добавления новой книги
     public void openInputDataWindow() {
-        idvm.openWindow();
+        Platform.runLater(() -> idvm.openWindow());
     }
 
     public void openChangeWindow(int index) {
@@ -122,19 +131,19 @@ public class MainViewModel implements InteractWindowsInterface {
     }
 
     public void openInputIndexWindow() {
-        iivm.openWindow();
+        Platform.runLater(() -> iivm.openWindow());
     }
 
     public void openMonthStatWindow() {
-        //msvm.openWindow();
+        Platform.runLater(() -> msvm.openWindow());
     }
 
     public void openMonthTempsWindow() {
-        //mtvm.openWindow();
+        Platform.runLater(() -> mtvm.openWindow());
     }
 
     public void openSettingsWindow() {
-        //svm.openWindow();
+        Platform.runLater(() -> svm.openWindow());
     }
 
     /*
@@ -154,23 +163,12 @@ public class MainViewModel implements InteractWindowsInterface {
         fillingTable(getDataList());
     }
 
-    /*
     public Map<Date, Integer> getStatisticTemps() {
-        return model.getTemps();
+        return model.getSpeed();
     }
 
     public Map<Date, Integer> getStatisticStat() {
         return model.getStat();
-    }
-     */
-
-    // Геттеры, сеттеры
-    public void setSplashViewModel(SplashViewModel splashViewModel) {
-        this.splashViewModel = splashViewModel;
-    }
-
-    public void setMainWindow(MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
     }
 
     public void setModel(Model model) {

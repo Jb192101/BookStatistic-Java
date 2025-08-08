@@ -2,17 +2,15 @@ package org.jedi_bachelor.bs.viewmodel;
 
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.view.InputDataWindow;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InputDataViewModel extends LocalViewModel implements InteractViewModelInterface {
     private Book newBook;
-    @Qualifier("mainViewModel")
-    private MainViewModel mvm;
 
-    public InputDataViewModel(MainViewModel _mvm) {
-        this.mvm = _mvm;
+    public InputDataViewModel(MainViewModel mvm) {
+        super(mvm);
+
         this.window = new InputDataWindow(this);
     }
 
@@ -22,11 +20,10 @@ public class InputDataViewModel extends LocalViewModel implements InteractViewMo
     }
 
     @Override
-    public void setBook(Book _newBook) {
-        this.newBook = _newBook;
+    public void setBook(Book newBook) {
+        this.newBook = newBook;
 
-        mvm.updateBookModel(this.newBook);
-
-        mvm.fillingTable(mvm.getDataList());
+        this.mainViewModel.updateBookModel(this.newBook);
+        this.mainViewModel.fillingTable(this.mainViewModel.getDataList());
     }
 }

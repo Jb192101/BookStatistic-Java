@@ -64,9 +64,9 @@ public class Model {
         return null;
     }
 
-    private void addPagesAtMonthStat(int _changed) {
+    private void addPagesAtMonthStat(int changed) {
         boolean isKey = false;
-        for(Date d : monthStat.keySet()) {
+        for(Date d : this.monthStat.keySet()) {
             if(d.equals(Date.now())) {
                 isKey = true;
                 break;
@@ -74,14 +74,14 @@ public class Model {
         }
 
         if(!isKey)
-            monthStat.put(Date.now(), _changed);
+            this.monthStat.put(Date.now(), changed);
         else
-            monthStat.put(Date.now(), monthStat.get(Date.now()) + _changed);
+            this.monthStat.put(Date.now(), this.monthStat.get(Date.now()) + changed);
     }
 
-    private void addPagesAtMonthSpeed(int _changed) {
+    private void addPagesAtMonthSpeed(int changed) {
         boolean isKey = false;
-        for(Date d : monthSpeed.keySet()) {
+        for(Date d : this.monthSpeed.keySet()) {
             if(d.equals(Date.now())) {
                 isKey = true;
                 break;
@@ -89,13 +89,21 @@ public class Model {
         }
 
         if(!isKey)
-            monthSpeed.put(Date.now(), _changed);
+            this.monthSpeed.put(Date.now(), changed);
         else
-            monthSpeed.put(Date.now(), monthSpeed.get(Date.now()) + _changed);
+            this.monthSpeed.put(Date.now(), monthSpeed.get(Date.now()) + changed);
     }
 
     public Map<Long, Book> getBooks() {
         return books;
+    }
+
+    public Map<Date, Integer> getSpeed() {
+        return monthSpeed;
+    }
+
+    public Map<Date, Integer> getStat() {
+        return monthStat;
     }
 
     public void updateDataAddBook(Book newBook) {
@@ -111,13 +119,5 @@ public class Model {
 
     private void updateFileBooks() {
         dataBaseConnectivity.updateData(this.books, this.monthStat, this.monthSpeed);
-    }
-
-    public void setBookFactory(BookFactory bookFactory) {
-        this.bookFactory = bookFactory;
-    }
-
-    public void setDataBaseConnectivity(DataBaseConnectivity dataBaseConnectivity) {
-        this.dataBaseConnectivity = dataBaseConnectivity;
     }
 }

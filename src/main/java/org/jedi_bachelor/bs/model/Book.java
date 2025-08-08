@@ -155,7 +155,7 @@ public class Book implements Serializable, Comparable<Book> {
     }
 
     public void calculateProcentOfReaded() {
-        this.procentOfReaded = (float) this.completePages / this.allPages;
+        this.procentOfReaded = 100 * (float) this.completePages / this.allPages;
     }
 
     public float getProcentOfReaded() {

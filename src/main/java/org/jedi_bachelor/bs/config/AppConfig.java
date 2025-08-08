@@ -46,7 +46,7 @@ public class AppConfig {
 
     @Bean
     public SplashViewModel splashViewModel(MainViewModel mainViewModel) {
-        return new SplashViewModel(mainViewModel, paths().getPathToImageSplashScreen());
+        return new SplashViewModel(mainViewModel, paths.getPathToImageSplashScreen());
     }
 
     @Bean
@@ -62,6 +62,21 @@ public class AppConfig {
     @Bean
     public InputIndexViewModel inputIndexViewModel(MainViewModel mainViewModel) {
         return new InputIndexViewModel(mainViewModel);
+    }
+
+    @Bean
+    public SpeedStatViewModel speedStatViewModel(MainViewModel mainViewModel) {
+        return new SpeedStatViewModel(mainViewModel);
+    }
+
+    @Bean
+    public MonthStatViewModel monthStatViewModel(MainViewModel mainViewModel) {
+        return new MonthStatViewModel(mainViewModel);
+    }
+
+    @Bean
+    public SettingsViewModel settingsViewModel(MainViewModel mainViewModel) {
+        return new SettingsViewModel(mainViewModel);
     }
 
     @Bean

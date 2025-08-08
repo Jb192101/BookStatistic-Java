@@ -7,12 +7,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChangeViewModel extends LocalViewModel implements InteractViewModelInterface {
-    @Qualifier("mainViewModel")
-    private final MainViewModel mvm;
     private Book changedBook = null;
 
-    public ChangeViewModel(MainViewModel _mvm) {
-        this.mvm = _mvm;
+    public ChangeViewModel(MainViewModel mvm) {
+        super(mvm);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class ChangeViewModel extends LocalViewModel implements InteractViewModel
 
     @Override
     public void setBook(Book newBook) {
-        mvm.changeBook(newBook);
+        this.mainViewModel.changeBook(newBook);
         closeWindow();
         changedBook = null;
     }

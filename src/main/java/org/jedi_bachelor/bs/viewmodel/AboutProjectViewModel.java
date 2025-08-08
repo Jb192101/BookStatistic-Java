@@ -6,8 +6,9 @@ public class AboutProjectViewModel extends LocalViewModel {
     private MainViewModel mainViewModel;
 
     public AboutProjectViewModel(MainViewModel mvm, String pathToImage, String pathToText) {
+        super(mvm);
+
         this.window = new AboutWindow(pathToImage, pathToText);
-        this.mainViewModel = mvm;
     }
 
     @Override

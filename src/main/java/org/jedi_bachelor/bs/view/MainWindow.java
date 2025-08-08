@@ -24,6 +24,7 @@ public class MainWindow extends Stage {
     private MainViewModel mvm;
     private BorderPane root;
     private ObservableList<Book> data;
+    private Label booksCountLabel;
 
     public MainWindow(MainViewModel mvm) {
         this.mvm = mvm;
@@ -103,7 +104,6 @@ public class MainWindow extends Stage {
         table.getColumns().add(endDateColumn);
         table.getColumns().add(procColumn);
 
-        // Заполнение таблицы
         data = FXCollections.observableArrayList();
         mvm.fillingTable(data);
         table.setItems(data);
@@ -129,6 +129,14 @@ public class MainWindow extends Stage {
             mvm.openInputIndexWindow()
         );
 
+        statMonthButton.setOnAction(e ->
+                mvm.openMonthStatWindow()
+        );
+
+        statTempsButton.setOnAction(e ->
+                mvm.openMonthTempsWindow()
+        );
+
         buttonPanel.getChildren().addAll(addButton, editButton, statMonthButton, statTempsButton);
 
         VBox bottomContainer = new VBox(buttonPanel);
@@ -140,7 +148,7 @@ public class MainWindow extends Stage {
         bottomPanel.setPadding(new Insets(10));
         bottomPanel.setAlignment(Pos.BOTTOM_RIGHT);
 
-        Label booksCountLabel = new Label("Всего прочитано: " + mvm.getCountCompleteBooks());
+        booksCountLabel = new Label("Всего прочитано: " + mvm.getCountCompleteBooks());
         bottomPanel.getChildren().add(booksCountLabel);
 
         ((VBox) root.getBottom()).getChildren().add(bottomPanel);
