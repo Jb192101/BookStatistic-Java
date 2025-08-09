@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Component
 @Entity
@@ -68,6 +69,34 @@ public class Book implements Serializable, Comparable<Book> {
         id = countOfBooks;
 
         calculateProcentOfReaded();
+    }
+
+    public Book(String name, String author, int completePages, int allPages, String rating) {
+        setName(name);
+        setAuthor(author);
+
+        try {
+            setAllPages(allPages);
+        } catch (NegativePagesException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+
+        try {
+            setCompletePages(completePages);
+        } catch(NegativePagesException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        } catch(AllPagesLowThanCompleteException e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+
+        setStartOfReading(LocalDate.now());
+
+        countOfBooks++;
+        id = countOfBooks;
+
+        calculateProcentOfReaded();
+
+        setRating(rating);
     }
 
     public void setAllPages(int allPages) throws NegativePagesException {
@@ -150,8 +179,18 @@ public class Book implements Serializable, Comparable<Book> {
         return rating;
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    public void setRating(String rating) {
+        if(Objects.equals(rating, Rating.HIGH.getNameOfRating())) {
+            this.rating = Rating.HIGH;
+        } else if(Objects.equals(rating, Rating.HIGH_MED.getNameOfRating())) {
+            this.rating = Rating.HIGH_MED;
+        } else if(Objects.equals(rating, Rating.MED.getNameOfRating())) {
+            this.rating = Rating.MED;
+        } else if(Objects.equals(rating, Rating.LOW_MED.getNameOfRating())) {
+            this.rating = Rating.LOW_MED;
+        } else if(Objects.equals(rating, Rating.LOW.getNameOfRating())) {
+            this.rating = Rating.LOW;
+        }
     }
 
     public void calculateProcentOfReaded() {

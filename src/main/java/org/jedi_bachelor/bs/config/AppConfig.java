@@ -65,6 +65,11 @@ public class AppConfig {
     }
 
     @Bean
+    public RatingsViewModel ratingsViewModel(MainViewModel mainViewModel) {
+        return new RatingsViewModel(mainViewModel);
+    }
+
+    @Bean
     public SpeedStatViewModel speedStatViewModel(MainViewModel mainViewModel) {
         return new SpeedStatViewModel(mainViewModel);
     }

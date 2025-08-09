@@ -18,6 +18,7 @@ import javafx.stage.StageStyle;
 
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.model.Date;
+import org.jedi_bachelor.bs.model.Rating;
 import org.jedi_bachelor.bs.viewmodel.MainViewModel;
 
 public class MainWindow extends Stage {
@@ -39,7 +40,7 @@ public class MainWindow extends Stage {
         createButtonPanel();
         createBottomPanel();
 
-        Scene scene = new Scene(root, 850, 600);
+        Scene scene = new Scene(root, 950, 600);
         //scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         root.getStyleClass().add("root");
 
@@ -47,6 +48,7 @@ public class MainWindow extends Stage {
         initStyle(StageStyle.UTILITY);
         setScene(scene);
         setResizable(false);
+        //setFullScreen(true);
     }
 
     private void createTopPanel() {
@@ -74,7 +76,7 @@ public class MainWindow extends Stage {
         TableColumn<Book, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Book, String> titleColumn = new TableColumn<>("Название книги");
+        TableColumn<Book, String> titleColumn = new TableColumn<>("  Название книги  ");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         TableColumn<Book, String> authorColumn = new TableColumn<>("Авторство книги");
@@ -95,6 +97,9 @@ public class MainWindow extends Stage {
         TableColumn<Book, Float> procColumn = new TableColumn<>("% прочитан.");
         procColumn.setCellValueFactory(new PropertyValueFactory<>("procentOfReaded"));
 
+        TableColumn<Book, Rating> ratingColumn = new TableColumn<>("  Оценка  ");
+        ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+
         table.getColumns().add(idColumn);
         table.getColumns().add(titleColumn);
         table.getColumns().add(authorColumn);
@@ -103,6 +108,7 @@ public class MainWindow extends Stage {
         table.getColumns().add(startDateColumn);
         table.getColumns().add(endDateColumn);
         table.getColumns().add(procColumn);
+        table.getColumns().add(ratingColumn);
 
         data = FXCollections.observableArrayList();
         mvm.fillingTable(data);
@@ -120,6 +126,7 @@ public class MainWindow extends Stage {
         Button editButton = new Button("Изменить");
         Button statMonthButton = new Button("Статистика");
         Button statTempsButton = new Button("Скорость чтения");
+        Button ratingsButton = new Button("Оценки");
 
         addButton.setOnAction(e ->
             mvm.openInputDataWindow()
@@ -137,7 +144,12 @@ public class MainWindow extends Stage {
                 mvm.openMonthTempsWindow()
         );
 
-        buttonPanel.getChildren().addAll(addButton, editButton, statMonthButton, statTempsButton);
+        ratingsButton.setOnAction(e ->
+                mvm.openRatingsWindow()
+        );
+
+        buttonPanel.getChildren().addAll(addButton, editButton, statMonthButton, statTempsButton,
+                ratingsButton);
 
         VBox bottomContainer = new VBox(buttonPanel);
         root.setBottom(bottomContainer);

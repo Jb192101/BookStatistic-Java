@@ -54,6 +54,9 @@ public class MainViewModel implements InteractWindowsInterface {
     @Autowired
     @Qualifier("splashViewModel")
     private SplashViewModel splashViewModel;
+    @Autowired
+    @Qualifier("ratingsViewModel")
+    private RatingsViewModel ratingsViewModel;
 
     // Доп. окна
     // Окно ошибки
@@ -146,6 +149,10 @@ public class MainViewModel implements InteractWindowsInterface {
         Platform.runLater(() -> svm.openWindow());
     }
 
+    public void openRatingsWindow() {
+        Platform.runLater(() -> ratingsViewModel.openWindow());
+    }
+
     /*
     Методы для работы с моделью
      */
@@ -177,5 +184,9 @@ public class MainViewModel implements InteractWindowsInterface {
 
     public ObservableList<Book> getDataList() {
         return this.mainWindow.getData();
+    }
+
+    public Map<Long, Book> getBooks() {
+        return this.model.getBooks();
     }
 }

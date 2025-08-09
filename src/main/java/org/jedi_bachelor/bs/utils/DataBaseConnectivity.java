@@ -171,7 +171,7 @@ public class DataBaseConnectivity implements DataConnectivity {
 
         Book book = session.find(Book.class, id);
         if(book != null) {
-            book.setRating(rating);
+            book.setRating(rating.getNameOfRating());
         }
 
         session.getTransaction().commit();

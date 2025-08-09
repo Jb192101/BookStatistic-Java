@@ -2,7 +2,6 @@ package org.jedi_bachelor.bs.viewmodel;
 
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.view.ChangeWindow;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,5 +1,7 @@
 package org.jedi_bachelor.bs.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,6 +10,7 @@ import javafx.stage.Modality;
 
 import javafx.stage.StageStyle;
 import org.jedi_bachelor.bs.model.Book;
+import org.jedi_bachelor.bs.model.Rating;
 import org.jedi_bachelor.bs.viewmodel.ChangeViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +26,7 @@ public class ChangeWindow extends View {
     protected final TextField authorField = new TextField();
     protected Spinner<Integer> pagesReadSpinner;
     protected Spinner<Integer> totalPagesSpinner;
+    protected ComboBox<String> ratings;
     protected final Label errorLabel = new Label();
     protected Button addButton;
 
@@ -82,13 +86,8 @@ public class ChangeWindow extends View {
             searchingBook.setEndOfReading(LocalDate.now());
         }
 
-        /*
-        searchingBook.setAuthorOfBook(authorField.getText());
-        searchingBook.setNameOfBook(titleField.getText());
-        searchingBook.setCompletePages(pagesReadSpinner.getValue());
-        searchingBook.setAllPages(totalPagesSpinner.getValue());
-         */
         searchingBook = new Book(authorField.getText(), titleField.getText(), pagesReadSpinner.getValue(), totalPagesSpinner.getValue());
+        searchingBook.setRating(ratings.getValue());
 
         cvm.setBook(searchingBook);
 
@@ -115,16 +114,25 @@ public class ChangeWindow extends View {
         grid.add(new Label("Всего страниц"), 0, 3);
         grid.add(totalPagesSpinner, 1, 3);
 
+        ObservableList<String> ratingsList = FXCollections.observableArrayList(Rating.HIGH.getNameOfRating(),
+                Rating.HIGH_MED.getNameOfRating(), Rating.MED.getNameOfRating(),
+                Rating.LOW_MED.getNameOfRating(), Rating.LOW.getNameOfRating());
+        ratings = new ComboBox<>(ratingsList);
+        ratings.setValue(Rating.HIGH.getNameOfRating());
+
+        grid.add(new Label("Оценка книги:"), 0, 4);
+        grid.add(ratings, 1, 4);
+
         // Кнопка добавления
         addButton = new Button("Добавить");
         addButton.setOnAction(
                 e -> validateAndAdd()
         );
-        grid.add(addButton, 0, 4, 2, 1);
+        grid.add(addButton, 0, 5, 2, 1);
 
         // Метка для ошибок
         errorLabel.setStyle("-fx-text-fill: red;");
-        grid.add(errorLabel, 0, 5, 2, 1);
+        grid.add(errorLabel, 0, 6, 2, 1);
 
         // Настройка сцены
         Scene scene = new Scene(grid);

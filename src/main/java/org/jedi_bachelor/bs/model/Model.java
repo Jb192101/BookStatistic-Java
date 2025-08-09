@@ -3,8 +3,8 @@ package org.jedi_bachelor.bs.model;
 import jakarta.annotation.PostConstruct;
 
 import org.jedi_bachelor.bs.factory.BookFactory;
-
 import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
