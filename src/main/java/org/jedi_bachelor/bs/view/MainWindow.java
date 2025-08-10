@@ -7,10 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -71,7 +68,10 @@ public class MainWindow extends Stage {
                 mvm.openAboutWindow()
         );
 
-        topPanel.getChildren().addAll(searchField, searchButton, new Region(), settingsButton, aboutButton);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        topPanel.getChildren().addAll(searchField, searchButton, spacer, settingsButton, aboutButton);
 
         root.setTop(topPanel);
     }

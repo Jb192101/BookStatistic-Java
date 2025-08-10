@@ -47,7 +47,6 @@ public class DataBaseConnectivity implements DataConnectivity {
             }
         }
 
-        //System.out.println(listSpeed);
         if(listSpeed != null) {
             for (Date d : listSpeed.keySet()) {
                 SpeedStat m = new SpeedStat(d, listSpeed.get(d));

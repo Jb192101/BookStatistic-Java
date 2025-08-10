@@ -2,12 +2,15 @@ package org.jedi_bachelor.bs.model;
 
 import jakarta.annotation.PostConstruct;
 
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jedi_bachelor.bs.factory.BookFactory;
 import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -44,7 +47,7 @@ public class Model {
             return;
         else {
             changedPages = book.getCompletePages() - medBook.getCompletePages();
-            if(changedPages < 0) {
+            if (changedPages < 0) {
                 changedPages *= -1;
             }
             addPagesAtMonthStat(changedPages);
@@ -73,9 +76,17 @@ public class Model {
             }
         }
 
-        if(!isKey)
-            this.monthStat.put(Date.now(), changed);
-        else
+        if(!isKey) {
+            Date lastDate = Date.now();
+            if(lastDate.getMonth() == 1) {
+                lastDate.setMonth(12);
+                lastDate.setYear(lastDate.getYear()-1);
+            } else {
+                lastDate.setMonth(Date.now().getMonth()-1);
+            }
+
+            this.monthStat.put(Date.now(), changed + monthStat.get(lastDate));
+        } else
             this.monthStat.put(Date.now(), this.monthStat.get(Date.now()) + changed);
     }
 
@@ -119,5 +130,31 @@ public class Model {
 
     private void updateFileBooks() {
         dataBaseConnectivity.updateData(this.books, this.monthStat, this.monthSpeed);
+    }
+
+    public List<Book> searchingBooksByNameAuthor(String searchText) {
+        String searchLower = searchText.toLowerCase();
+        LevenshteinDistance levenshtein = new LevenshteinDistance();
+
+        List<Book> searchResults = new ArrayList<>();
+
+        for (Book book : this.books.values()) {
+            String bookName = book.getName().toLowerCase();
+            String authorName = book.getAuthor().toLowerCase();
+
+            if (bookName.contains(searchLower) || authorName.contains(searchLower)) {
+                searchResults.add(book);
+                continue;
+            }
+
+            int nameDistance = levenshtein.apply(searchLower, bookName);
+            int authorDistance = levenshtein.apply(searchLower, authorName);
+
+            if (nameDistance <= 4 || authorDistance <= 4) {
+                searchResults.add(book);
+            }
+        }
+
+        return searchResults;
     }
 }

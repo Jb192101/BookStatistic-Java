@@ -8,8 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import org.apache.commons.text.similarity.LevenshteinDistance;
-
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.model.Date;
@@ -28,7 +26,7 @@ public class MainViewModel implements InteractWindowsInterface {
     private MainWindow mainWindow;
 
     @PostConstruct
-    private void construct() {
+    private void init() {
         this.mainWindow = new MainWindow(this);
     }
 
@@ -121,9 +119,9 @@ public class MainViewModel implements InteractWindowsInterface {
         Platform.runLater(() -> idvm.openWindow());
     }
 
-    public void openChangeWindow(int index) {
+    public void openChangeWindow(long index) {
         Book changedBook = searchBookByID(index);
-        System.out.println(changedBook);
+        //System.out.println(changedBook);
         if(changedBook != null) {
             cvm.setBookWithoutClosingWindow(changedBook);
             iivm.closeWindow();
@@ -164,12 +162,12 @@ public class MainViewModel implements InteractWindowsInterface {
         this.model.updateDataAddBook(newBook);
     }
 
-    private Book searchBookByID(int _index) {
-        return model.searchBook(_index);
+    private Book searchBookByID(long index) {
+        return model.searchBook(index);
     }
 
-    public void changeBook(Book _book) {
-        this.model.changeBook(_book);
+    public void changeBook(Book book) {
+        this.model.changeBook(book);
         fillingTable(getDataList());
     }
 
@@ -201,25 +199,8 @@ public class MainViewModel implements InteractWindowsInterface {
         }
 
         ObservableList<Book> searchResults = FXCollections.observableArrayList();
-        String searchLower = searchText.toLowerCase();
-        LevenshteinDistance levenshtein = new LevenshteinDistance(); // <-- для определения расстояния между словами
 
-        for (Book book : model.getBooks().values()) {
-            String bookName = book.getName().toLowerCase();
-            String authorName = book.getAuthor().toLowerCase();
-
-            if (bookName.contains(searchLower) || authorName.contains(searchLower)) {
-                searchResults.add(book);
-                continue;
-            }
-
-            int nameDistance = levenshtein.apply(searchLower, bookName);
-            int authorDistance = levenshtein.apply(searchLower, authorName);
-
-            if (nameDistance <= 4 || authorDistance <= 4) {
-                searchResults.add(book);
-            }
-        }
+        searchResults.addAll(model.searchingBooksByNameAuthor(searchText));
 
         mainWindow.getData().setAll(searchResults);
     }

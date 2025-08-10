@@ -28,6 +28,8 @@ public class MonthStatWindow extends View {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
+        yAxis.setTickUnit(1);
+        yAxis.setMinorTickVisible(false);
         xAxis.setLabel("ММ/ГГГГ");
         yAxis.setLabel("Количество прочитанных страниц (в общем)");
 

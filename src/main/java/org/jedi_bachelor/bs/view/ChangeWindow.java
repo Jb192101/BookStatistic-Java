@@ -91,8 +91,8 @@ public class ChangeWindow extends View {
         try {
             searchingBook.setAuthor(authorField.getText());
             searchingBook.setName(titleField.getText());
-            searchingBook.setCompletePages(pagesReadSpinner.getValue());
             searchingBook.setAllPages(totalPagesSpinner.getValue());
+            searchingBook.setCompletePages(pagesReadSpinner.getValue());
             searchingBook.setRating(ratings.getValue());
         } catch (NegativePagesException | AllPagesLowThanCompleteException e) {
             throw new RuntimeException(e);
