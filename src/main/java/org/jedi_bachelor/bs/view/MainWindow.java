@@ -5,13 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -56,6 +54,13 @@ public class MainWindow extends Stage {
         topPanel.setPadding(new Insets(10));
         topPanel.setAlignment(Pos.TOP_RIGHT);
 
+        TextField searchField = new TextField();
+        searchField.setPromptText("Поиск по названию или автору...");
+        searchField.setPrefWidth(300);
+
+        Button searchButton = new Button("Поиск");
+        searchButton.setOnAction(e -> mvm.searchBooks(searchField.getText()));
+
         Button settingsButton = new Button("Настройки");
         settingsButton.setOnAction(e ->
                 mvm.openSettingsWindow()
@@ -66,7 +71,8 @@ public class MainWindow extends Stage {
                 mvm.openAboutWindow()
         );
 
-        topPanel.getChildren().addAll(settingsButton, aboutButton);
+        topPanel.getChildren().addAll(searchField, searchButton, new Region(), settingsButton, aboutButton);
+
         root.setTop(topPanel);
     }
 

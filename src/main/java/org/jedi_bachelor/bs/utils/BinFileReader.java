@@ -11,6 +11,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+/*
+Устаревший класс
+(для локального использования)
+ */
+
 @Component
 @Scope("prototype")
 public class BinFileReader<T> {

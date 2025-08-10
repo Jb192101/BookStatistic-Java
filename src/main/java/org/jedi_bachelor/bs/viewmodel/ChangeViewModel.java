@@ -36,7 +36,7 @@ public class ChangeViewModel extends LocalViewModel implements InteractViewModel
         changedBook = null;
     }
 
-    public void setBookWithoutClosingWindow(Book _newBook) {
-        this.changedBook = _newBook;
+    public void setBookWithoutClosingWindow(Book newBook) {
+        this.changedBook = newBook;
     }
 }

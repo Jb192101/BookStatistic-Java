@@ -3,9 +3,12 @@ package org.jedi_bachelor.bs.viewmodel;
 import jakarta.annotation.PostConstruct;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.model.Book;
@@ -188,5 +191,36 @@ public class MainViewModel implements InteractWindowsInterface {
 
     public Map<Long, Book> getBooks() {
         return this.model.getBooks();
+    }
+
+    // Метод для поиска книг по названию/автору
+    public void searchBooks(String searchText) {
+        if (searchText == null || searchText.trim().isEmpty()) {
+            fillingTable(getDataList());
+            return;
+        }
+
+        ObservableList<Book> searchResults = FXCollections.observableArrayList();
+        String searchLower = searchText.toLowerCase();
+        LevenshteinDistance levenshtein = new LevenshteinDistance(); // <-- для определения расстояния между словами
+
+        for (Book book : model.getBooks().values()) {
+            String bookName = book.getName().toLowerCase();
+            String authorName = book.getAuthor().toLowerCase();
+
+            if (bookName.contains(searchLower) || authorName.contains(searchLower)) {
+                searchResults.add(book);
+                continue;
+            }
+
+            int nameDistance = levenshtein.apply(searchLower, bookName);
+            int authorDistance = levenshtein.apply(searchLower, authorName);
+
+            if (nameDistance <= 4 || authorDistance <= 4) {
+                searchResults.add(book);
+            }
+        }
+
+        mainWindow.getData().setAll(searchResults);
     }
 }

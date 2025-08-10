@@ -1,8 +1,10 @@
 package org.jedi_bachelor.bs.utils;
 
 /*
-Неиспользуемый класс
+Устаревший класс
+(для локального использования)
  */
+
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

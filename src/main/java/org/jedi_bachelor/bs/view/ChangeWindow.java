@@ -9,6 +9,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 
 import javafx.stage.StageStyle;
+import org.jedi_bachelor.bs.exceptions.AllPagesLowThanCompleteException;
+import org.jedi_bachelor.bs.exceptions.NegativePagesException;
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.model.Rating;
 import org.jedi_bachelor.bs.viewmodel.ChangeViewModel;
@@ -86,8 +88,15 @@ public class ChangeWindow extends View {
             searchingBook.setEndOfReading(LocalDate.now());
         }
 
-        searchingBook = new Book(authorField.getText(), titleField.getText(), pagesReadSpinner.getValue(), totalPagesSpinner.getValue());
-        searchingBook.setRating(ratings.getValue());
+        try {
+            searchingBook.setAuthor(authorField.getText());
+            searchingBook.setName(titleField.getText());
+            searchingBook.setCompletePages(pagesReadSpinner.getValue());
+            searchingBook.setAllPages(totalPagesSpinner.getValue());
+            searchingBook.setRating(ratings.getValue());
+        } catch (NegativePagesException | AllPagesLowThanCompleteException e) {
+            throw new RuntimeException(e);
+        }
 
         cvm.setBook(searchingBook);
 
