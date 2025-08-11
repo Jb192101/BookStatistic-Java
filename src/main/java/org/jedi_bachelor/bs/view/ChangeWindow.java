@@ -156,4 +156,12 @@ public class ChangeWindow extends View {
             }
         });
     }
+
+    @Override
+    public void setData(Book newBook) {
+        this.titleField.setText(newBook.getName());
+        this.authorField.setText(newBook.getAuthor());
+        setupSpinners();
+        this.ratings.setValue(newBook.getRating().getNameOfRating());
+    }
 }

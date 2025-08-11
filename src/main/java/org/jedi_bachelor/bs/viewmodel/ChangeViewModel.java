@@ -6,22 +6,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChangeViewModel extends LocalViewModel implements InteractViewModelInterface {
-    private Book changedBook = null;
+    private Book changedBook = new Book(); // чтобы избежать NullPointerException
 
     public ChangeViewModel(MainViewModel mvm) {
         super(mvm);
+
+        this.window = new ChangeWindow(this);
     }
 
     @Override
     public void openWindow() {
-        this.window = new ChangeWindow(this);
         this.window.show();
-    }
-
-    @Override
-    public void closeWindow() {
-        this.window.close();
-        this.window = null;
     }
 
     @Override
@@ -38,5 +33,6 @@ public class ChangeViewModel extends LocalViewModel implements InteractViewModel
 
     public void setBookWithoutClosingWindow(Book newBook) {
         this.changedBook = newBook;
+        this.window.setData(newBook);
     }
 }

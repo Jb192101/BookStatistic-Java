@@ -1,0 +1,17 @@
+.root {
+    -fx-base: #f5f5f5;
+    -fx-background: #ffffff;
+    -fx-control-inner-background: white;
+    -fx-text-fill: #333333;
+}
+
+.button {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333333;
+}
+
+.table-view {
+    -fx-base: #ffffff;
+    -fx-control-inner-background: #ffffff;
+    -fx-background-color: #ffffff;
+}

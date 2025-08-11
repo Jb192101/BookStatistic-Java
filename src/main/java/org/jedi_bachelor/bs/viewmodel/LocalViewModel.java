@@ -19,4 +19,8 @@ abstract public class LocalViewModel implements InteractWindowsInterface {
     public void closeWindow() {
         window.close();
     }
+
+    public View getWindow() {
+        return this.window;
+    }
 }

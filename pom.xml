@@ -75,6 +75,11 @@
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>7.0.3.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.13.1</version>
+		</dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -92,36 +97,13 @@
 					<include>**/*.png</include>
 					<include>**/*.cfg.xml</include>
 					<include>**/*.txt</include>
+					<include>**/*.css</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
 
 		</resources>
 		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.1</version>
-				<executions>
-					<execution>
-						<id>copy-external-data</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/external</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/user-data</directory>
-									<includes>
-										<include>**/*.bs</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

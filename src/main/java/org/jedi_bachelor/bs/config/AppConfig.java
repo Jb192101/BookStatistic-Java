@@ -4,6 +4,7 @@ import org.jedi_bachelor.bs.factory.BookFactory;
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
 import org.jedi_bachelor.bs.viewmodel.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +25,11 @@ public class AppConfig {
     @Bean
     public Paths paths() {
         return new Paths();
+    }
+
+    @Bean
+    public Settings settings() {
+        return new Settings();
     }
 
     // Model
@@ -80,8 +86,8 @@ public class AppConfig {
     }
 
     @Bean
-    public SettingsViewModel settingsViewModel(MainViewModel mainViewModel) {
-        return new SettingsViewModel(mainViewModel);
+    public SettingsViewModel settingsViewModel(MainViewModel mainViewModel, Settings settings) {
+        return new SettingsViewModel(mainViewModel, settings);
     }
 
     @Bean

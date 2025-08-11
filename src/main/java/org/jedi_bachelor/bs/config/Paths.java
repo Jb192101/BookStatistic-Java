@@ -14,7 +14,9 @@ public class Paths {
     @Value("${paths.pathToImageAuthorOfProject}")
     private String pathToImageAuthorOfProject;
     @Value("${paths.pathToDescriptionOfProject}")
-    private String pathToDescriptopnOfProject;
+    private String pathToDescriptionOfProject;
+    @Value("${paths.pathToSettings}")
+    private String pathToSettings;
 
     public String getPathToImageSplashScreen() {
         return pathToImageSplashScreen;
@@ -25,6 +27,10 @@ public class Paths {
     }
 
     public String getPathToDescriptionOfProject() {
-        return pathToDescriptopnOfProject;
+        return pathToDescriptionOfProject;
+    }
+
+    public String getPathToSettings() {
+        return pathToSettings;
     }
 }

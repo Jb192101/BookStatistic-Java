@@ -204,4 +204,39 @@ public class MainViewModel implements InteractWindowsInterface {
 
         mainWindow.getData().setAll(searchResults);
     }
+
+    // Для стилей/языков
+    public void setStyle(String css) {
+        this.mainWindow.getScene().getStylesheets().clear();
+        this.mainWindow.getScene().getStylesheets().add(css);
+
+        // Остальные окна
+        this.ratingsViewModel.getWindow().getScene().getStylesheets().clear();
+        this.ratingsViewModel.getWindow().getScene().getStylesheets().add(css);
+
+        this.avm.getWindow().getScene().getStylesheets().clear();
+        this.avm.getWindow().getScene().getStylesheets().add(css);
+
+        this.cvm.getWindow().getScene().getStylesheets().clear();
+        this.cvm.getWindow().getScene().getStylesheets().add(css);
+
+        this.idvm.getWindow().getScene().getStylesheets().clear();
+        this.idvm.getWindow().getScene().getStylesheets().add(css);
+
+        this.iivm.getWindow().getScene().getStylesheets().clear();
+        this.iivm.getWindow().getScene().getStylesheets().add(css);
+
+        this.svm.getWindow().getScene().getStylesheets().clear();
+        this.svm.getWindow().getScene().getStylesheets().add(css);
+
+        this.msvm.getWindow().getScene().getStylesheets().clear();
+        this.msvm.getWindow().getScene().getStylesheets().add(css);
+
+        this.mtvm.getWindow().getScene().getStylesheets().clear();
+        this.mtvm.getWindow().getScene().getStylesheets().add(css);
+    }
+
+    public void setLang(String lang) {
+
+    }
 }

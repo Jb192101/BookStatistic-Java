@@ -35,7 +35,7 @@ public class MainWindow extends Stage {
         createButtonPanel();
         createBottomPanel();
 
-        Scene scene = new Scene(root, 950, 600);
+        Scene scene = new Scene(root, 1000, 600);
         //scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         root.getStyleClass().add("root");
 
