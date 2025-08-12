@@ -5,15 +5,24 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.MalformedJsonException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Configuration
 @PropertySource("classpath:paths.properties")
@@ -32,20 +41,39 @@ public class Settings {
 
     @PostConstruct
     private void init() {
-        // Получение значений из settings.json
-        try (FileReader reader = new FileReader(pathToSettings)) {
-            JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+        try {
+            Path settingsPath = Paths.get(pathToSettings);
 
-            this.currentLang = jsonObject.get("currentLang").getAsString();
-            this.currentTheme = jsonObject.get("currentTheme").getAsString();
+            if (!Files.exists(settingsPath)) {
+                createDefaultSettings(settingsPath);
+            }
 
-            reader.close();
+            try (FileReader reader = new FileReader(settingsPath.toFile())) {
+                JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+
+                this.currentLang = jsonObject.get("currentLanguage").getAsString();
+                this.currentTheme = jsonObject.get("currentTheme").getAsString();
+            }
         } catch (Exception e) {
             System.err.println("Ошибка при чтении настроек: " + e.getMessage());
-
-            this.currentLang = "Ru";
-            this.currentTheme = "Light";
+            this.currentLang = "ru";
+            this.currentTheme = "light";
+            try {
+                saveSettings();
+            } catch (Exception ex) {
+                System.err.println("Не удалось сохранить настройки по умолчанию: " + ex.getMessage());
+            }
         }
+    }
+
+    private void createDefaultSettings(Path settingsPath) throws IOException {
+        JsonObject defaultSettings = new JsonObject();
+        defaultSettings.addProperty("currentLanguage", "ru");
+        defaultSettings.addProperty("currentTheme", "light");
+
+        Files.createDirectories(settingsPath.getParent());
+
+        saveSettings();
     }
 
     public String getLightTheme() {
@@ -77,14 +105,23 @@ public class Settings {
     }
 
     private void saveSettings() {
-        try (FileWriter writer = new FileWriter(pathToSettings)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(currentLang, writer);
-            gson.toJson(currentTheme, writer);
+        try {
+            Path settingsPath = Paths.get(pathToSettings);
 
-            writer.close();
+            JsonObject settings = new JsonObject();
+            settings.addProperty("currentLanguage", currentLang);
+            settings.addProperty("currentTheme", currentTheme);
+
+            try (FileWriter writer = new FileWriter(settingsPath.toFile())) {
+                Gson gson = new GsonBuilder()
+                        .setPrettyPrinting()
+                        .create();
+                gson.toJson(settings, writer);
+            }
         } catch (IOException e) {
+            System.err.println("Ошибка при сохранении настроек: " + e.getMessage());
             e.printStackTrace();
         }
+
     }
 }

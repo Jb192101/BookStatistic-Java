@@ -1,8 +1,8 @@
 package org.jedi_bachelor.bs.model;
 
 public enum Theme {
-    LIGHT_THEME("Light"),
-    DARK_THEME("Dark");
+    LIGHT_THEME("light"),
+    DARK_THEME("dark");
 
     private String name;
 

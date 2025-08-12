@@ -1,8 +1,8 @@
 package org.jedi_bachelor.bs.model;
 
 public enum Language {
-    RUSSIAN_LANG("Ru"),
-    ENGLISH_LANG("En");
+    RUSSIAN_LANG("ru"),
+    ENGLISH_LANG("en");
 
     private String name;
 

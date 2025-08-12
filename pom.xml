@@ -64,7 +64,6 @@
 			<artifactId>jakarta.persistence-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -98,10 +97,10 @@
 					<include>**/*.cfg.xml</include>
 					<include>**/*.txt</include>
 					<include>**/*.css</include>
+					<include>**/*.json</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
-
 		</resources>
 		<plugins>
 			<plugin>
