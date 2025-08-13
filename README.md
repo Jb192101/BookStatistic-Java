@@ -18,7 +18,10 @@
 Программа работает на локальной базе данных (см. [hibernate.cfg.xml](https://github.com/Jb192101/BookStatistic-Java/blob/main/src/main/resources/hibernate.cfg.xml)), поэтому если хотите работать с приложением, воспользуйтесь СУБД PostgreSQL.
 
 ## Добавление книги
-*написать*
+Для добавления книги в список необходимо нажать на кнопку ниже.
+<img width="1259" height="797" alt="image" src="https://github.com/user-attachments/assets/428f556c-10cd-4f6e-b935-4a19cba5f335" />
+После этого на экране появится специальное окно-форма для заполнения необходимых данных по книге (ниже приведён пример данных, которые можно ввести).
+<img width="398" height="448" alt="Снимок экрана 2025-08-13 121242" src="https://github.com/user-attachments/assets/e946f30a-805c-4a68-b677-14eabb641f72" />
 
 ## Изменение значений книги
 *написать*
