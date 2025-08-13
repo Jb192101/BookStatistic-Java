@@ -17,6 +17,8 @@ public class MonthStatWindow extends View {
     @Qualifier("monthStatViewModel")
     MonthStatViewModel monthStatViewModel;
 
+    private BarChart<String, Number> barChart;
+
     public MonthStatWindow(MonthStatViewModel monthStatViewModel) {
         this.monthStatViewModel = monthStatViewModel;
 
@@ -33,9 +35,17 @@ public class MonthStatWindow extends View {
         xAxis.setLabel("ММ/ГГГГ");
         yAxis.setLabel("Количество прочитанных страниц (в общем)");
 
-        final BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle("Кол-во прочитанных страниц");
 
+        updateData();
+
+        Scene scene = new Scene(barChart, 800, 600);
+        this.setScene(scene);
+    }
+
+    @Override
+    public void updateData() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Кол-во прочитанных страниц");
 
@@ -46,9 +56,7 @@ public class MonthStatWindow extends View {
             series.getData().add(new XYChart.Data<>(monthYear, stats.get(d)));
         }
 
+        barChart.getData().clear();
         barChart.getData().add(series);
-
-        Scene scene = new Scene(barChart, 800, 600);
-        this.setScene(scene);
     }
 }

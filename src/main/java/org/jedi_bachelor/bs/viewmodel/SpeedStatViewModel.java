@@ -3,7 +3,6 @@ package org.jedi_bachelor.bs.viewmodel;
 import org.jedi_bachelor.bs.model.Date;
 import org.jedi_bachelor.bs.view.SpeedStatWindow;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,5 +17,9 @@ public class SpeedStatViewModel extends LocalViewModel {
 
     public Map<Date, Integer> getData() {
         return this.mainViewModel.getStatisticTemps();
+    }
+
+    public void updateData() {
+        this.window.updateData();
     }
 }

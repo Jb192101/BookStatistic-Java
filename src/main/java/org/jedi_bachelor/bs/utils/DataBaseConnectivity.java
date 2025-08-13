@@ -57,6 +57,26 @@ public class DataBaseConnectivity implements DataConnectivity {
         session.getTransaction().commit();
     }
 
+    public Book getBook(Long id) {
+        Session session = factory.getCurrentSession();
+        session.beginTransaction();
+
+        Book book = session.get(Book.class, id);
+
+        session.getTransaction().commit();
+
+        return book;
+    }
+
+    public void changeBook(Book book) {
+        Session session = factory.getCurrentSession();
+        session.beginTransaction();
+
+        session.merge(book);
+
+        session.getTransaction().commit();
+    }
+
     // Добавление книги в таблицу
     public void addBook(Book book) {
         Session session = factory.getCurrentSession();
@@ -192,7 +212,6 @@ public class DataBaseConnectivity implements DataConnectivity {
 
         return map;
     }
-
 
     // Методы для работы с таблицей статистики чтения
     public @NotNull Map<Date, Integer> getMonthStat() {

@@ -15,4 +15,8 @@ public class MonthStatViewModel extends LocalViewModel {
     public Map<Date, Integer> getData() {
         return this.mainViewModel.getStatisticStat();
     }
+
+    public void updateData() {
+        this.window.updateData();
+    }
 }

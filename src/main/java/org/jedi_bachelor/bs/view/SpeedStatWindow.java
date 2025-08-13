@@ -17,6 +17,8 @@ public class SpeedStatWindow extends View {
     @Qualifier("speedStatViewModel")
     SpeedStatViewModel speedStatViewModel;
 
+    private BarChart<String, Number> barChart;
+
     public SpeedStatWindow(SpeedStatViewModel speedStatViewModel) {
         this.speedStatViewModel = speedStatViewModel;
 
@@ -33,9 +35,17 @@ public class SpeedStatWindow extends View {
         xAxis.setLabel("ММ/ГГГГ");
         yAxis.setLabel("Количество прочитанных страниц (в месяц)");
 
-        final BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle("Скорость чтения");
 
+        updateData();
+
+        Scene scene = new Scene(barChart, 800, 600);
+        this.setScene(scene);
+    }
+
+    @Override
+    public void updateData() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Скорость чтения");
 
@@ -46,9 +56,7 @@ public class SpeedStatWindow extends View {
             series.getData().add(new XYChart.Data<>(monthYear, stats.get(d)));
         }
 
+        barChart.getData().clear();
         barChart.getData().add(series);
-
-        Scene scene = new Scene(barChart, 800, 600);
-        this.setScene(scene);
     }
 }

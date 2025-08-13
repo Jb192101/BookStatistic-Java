@@ -63,12 +63,12 @@ public class Book implements Serializable, Comparable<Book> {
             System.err.println("Ошибка: " + e.getMessage());
         }
 
+        calculateProcentOfReaded();
+
         setStartOfReading(LocalDate.now());
 
         countOfBooks++;
         id = countOfBooks;
-
-        calculateProcentOfReaded();
     }
 
     public Book(String name, String author, int completePages, int allPages, String rating) {
@@ -105,6 +105,8 @@ public class Book implements Serializable, Comparable<Book> {
         }
 
         this.allPages = allPages;
+
+        calculateProcentOfReaded();
     }
 
     public void setCompletePages(int completePages) throws NegativePagesException, AllPagesLowThanCompleteException {
@@ -120,6 +122,8 @@ public class Book implements Serializable, Comparable<Book> {
         if(this.completePages == this.allPages) {
             setEndOfReading(LocalDate.now());
         }
+
+        calculateProcentOfReaded();
     }
 
     @Override

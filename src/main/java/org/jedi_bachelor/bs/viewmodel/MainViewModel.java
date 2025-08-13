@@ -11,13 +11,15 @@ import javafx.scene.control.ButtonType;
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.model.Book;
 import org.jedi_bachelor.bs.model.Date;
-
 import org.jedi_bachelor.bs.view.MainWindow;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+
+import static java.lang.Thread.sleep;
 
 @Component
 public class MainViewModel implements InteractWindowsInterface {
@@ -86,6 +88,7 @@ public class MainViewModel implements InteractWindowsInterface {
      */
 
     public void fillingTable(ObservableList<Book> data) {
+        // Обновление основного списка
         data.clear();
 
         try {
@@ -100,6 +103,15 @@ public class MainViewModel implements InteractWindowsInterface {
         } catch(NullPointerException ex) {
             ex.printStackTrace();
         }
+
+        // Обновление кол-ва оценок (+)
+        ratingsViewModel.updateData();
+
+        // Обновление скорости
+        mtvm.updateData();
+
+        // Обновление статистики
+        msvm.updateData();
     }
 
     // Метод, возвращающий кол-во прочитанных книг
@@ -121,7 +133,6 @@ public class MainViewModel implements InteractWindowsInterface {
 
     public void openChangeWindow(long index) {
         Book changedBook = searchBookByID(index);
-        //System.out.println(changedBook);
         if(changedBook != null) {
             cvm.setBookWithoutClosingWindow(changedBook);
             iivm.closeWindow();
@@ -168,7 +179,19 @@ public class MainViewModel implements InteractWindowsInterface {
 
     public void changeBook(Book book) {
         this.model.changeBook(book);
-        fillingTable(getDataList());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                fillingTable(getDataList());
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     public Map<Date, Integer> getStatisticTemps() {
@@ -205,7 +228,7 @@ public class MainViewModel implements InteractWindowsInterface {
         mainWindow.getData().setAll(searchResults);
     }
 
-    // Для стилей/языков
+    // Для стилей
     public void setStyle(String css) {
         this.mainWindow.getScene().getStylesheets().clear();
         this.mainWindow.getScene().getStylesheets().add(css);
@@ -234,9 +257,5 @@ public class MainViewModel implements InteractWindowsInterface {
 
         this.mtvm.getWindow().getScene().getStylesheets().clear();
         this.mtvm.getWindow().getScene().getStylesheets().add(css);
-    }
-
-    public void setLang(String lang) {
-
     }
 }

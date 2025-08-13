@@ -27,7 +27,12 @@ public class RatingsViewModel extends LocalViewModel {
         for(Long id : books.keySet()) {
             countOfRatings.put(books.get(id).getRating(), countOfRatings.get(books.get(id).getRating()) + 1);
         }
+        System.out.println(countOfRatings);
 
         return countOfRatings;
+    }
+
+    public void updateData() {
+        this.getWindow().updateData();
     }
 }

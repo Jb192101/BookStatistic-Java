@@ -6,4 +6,8 @@ import org.jedi_bachelor.bs.model.Book;
 abstract public class View extends Stage {
     public void setData(Book newBook) {
     }
+
+    public void updateData() {
+
+    }
 }

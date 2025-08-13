@@ -40,25 +40,22 @@ public class Model {
         if(book == null)
             return;
 
-        int changedPages = 0;
-        long id = book.getId();
-        Book medBook = this.books.get(id);
-
-        if(medBook == null)
+        System.out.println(book);
+        Book existingBook = dataBaseConnectivity.getBook(book.getId());
+        if(existingBook == null) {
             return;
-        else {
-            changedPages = book.getCompletePages() - medBook.getCompletePages();
-            if (changedPages < 0) {
-                changedPages *= -1;
-            }
+        }
+
+        int changedPages = book.getCompletePages() - existingBook.getCompletePages();
+        if(changedPages != 0) {
+            changedPages = Math.abs(changedPages);
             addPagesAtMonthStat(changedPages);
             addPagesAtMonthSpeed(changedPages);
-
-            this.books.remove(id, medBook);
-            this.books.put(id, book);
-
-            updateFileBooks();
         }
+
+        this.books.put(book.getId(), book);
+
+        updateBookAtDB(book);
     }
 
     public Book searchBook(long id) {
@@ -86,7 +83,10 @@ public class Model {
                 lastDate.setMonth(Date.now().getMonth()-1);
             }
 
-            this.monthStat.put(Date.now(), changed + monthStat.get(lastDate));
+            if(monthStat.get(lastDate) != null)
+                this.monthStat.put(Date.now(), changed + monthStat.get(lastDate));
+            else
+                this.monthStat.put(Date.now(), changed);
         } else
             this.monthStat.put(Date.now(), this.monthStat.get(Date.now()) + changed);
     }
@@ -123,6 +123,8 @@ public class Model {
         books.put((long) books.size() + 1, newBook);
 
         // Добавление прочитанных страниц в статистику
+        System.out.println(newBook);
+
         addPagesAtMonthSpeed(newBook.getCompletePages());
         addPagesAtMonthStat(newBook.getCompletePages());
 
@@ -131,6 +133,10 @@ public class Model {
 
     private void updateFileBooks() {
         dataBaseConnectivity.updateData(this.books, this.monthStat, this.monthSpeed);
+    }
+
+    private void updateBookAtDB(Book book) {
+        dataBaseConnectivity.changeBook(book);
     }
 
     public List<Book> searchingBooksByNameAuthor(String searchText) {

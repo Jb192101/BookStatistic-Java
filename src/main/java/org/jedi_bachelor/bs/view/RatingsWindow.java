@@ -16,6 +16,8 @@ import java.util.Map;
 public class RatingsWindow extends View {
     private RatingsViewModel ratingsViewModel;
 
+    BarChart<String, Number> barChart;
+
     public RatingsWindow(RatingsViewModel ratingsViewModel) {
         this.ratingsViewModel = ratingsViewModel;
 
@@ -32,9 +34,17 @@ public class RatingsWindow extends View {
         xAxis.setLabel("ММ/ГГГГ");
         yAxis.setLabel("Количество оценок");
 
-        final BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle("Оценки");
 
+        updateData();
+
+        Scene scene = new Scene(barChart, 800, 600);
+        this.setScene(scene);
+    }
+
+    @Override
+    public void updateData() {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Оценки");
 
@@ -65,9 +75,7 @@ public class RatingsWindow extends View {
             }
         }
 
+        barChart.getData().clear();
         barChart.getData().add(series);
-
-        Scene scene = new Scene(barChart, 800, 600);
-        this.setScene(scene);
     }
 }

@@ -1,25 +1,19 @@
 package org.jedi_bachelor.bs.config;
 
 import com.google.gson.Gson;
-
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.MalformedJsonException;
+
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +28,6 @@ public class Settings {
     private String darkTheme;
 
     private String currentTheme;
-    private String currentLang;
 
     @Value("${paths.pathToSettings}")
     private String pathToSettings;
@@ -51,12 +44,10 @@ public class Settings {
             try (FileReader reader = new FileReader(settingsPath.toFile())) {
                 JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
 
-                this.currentLang = jsonObject.get("currentLanguage").getAsString();
                 this.currentTheme = jsonObject.get("currentTheme").getAsString();
             }
         } catch (Exception e) {
             System.err.println("Ошибка при чтении настроек: " + e.getMessage());
-            this.currentLang = "ru";
             this.currentTheme = "light";
             try {
                 saveSettings();
@@ -68,7 +59,6 @@ public class Settings {
 
     private void createDefaultSettings(Path settingsPath) throws IOException {
         JsonObject defaultSettings = new JsonObject();
-        defaultSettings.addProperty("currentLanguage", "ru");
         defaultSettings.addProperty("currentTheme", "light");
 
         Files.createDirectories(settingsPath.getParent());
@@ -88,18 +78,8 @@ public class Settings {
         return currentTheme;
     }
 
-    public String getCurrentLang() {
-        return currentLang;
-    }
-
     public void setCurrentTheme(String currentTheme) {
         this.currentTheme = currentTheme;
-
-        saveSettings();
-    }
-
-    public void setCurrentLang(String currentLang) {
-        this.currentLang = currentLang;
 
         saveSettings();
     }
@@ -109,7 +89,6 @@ public class Settings {
             Path settingsPath = Paths.get(pathToSettings);
 
             JsonObject settings = new JsonObject();
-            settings.addProperty("currentLanguage", currentLang);
             settings.addProperty("currentTheme", currentTheme);
 
             try (FileWriter writer = new FileWriter(settingsPath.toFile())) {

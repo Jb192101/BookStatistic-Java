@@ -38,7 +38,10 @@ public class ChangeWindow extends View {
         setTitle("Изменение книги");
         initStyle(StageStyle.UTILITY);
 
-        setupSpinners();
+        this.pagesReadSpinner = new Spinner<>();
+        this.totalPagesSpinner = new Spinner<>();
+
+        setupSpinners(cvm.getBook());
         setupUI();
         fillingFields();
         setupValidation();
@@ -49,18 +52,17 @@ public class ChangeWindow extends View {
         this.authorField.setText(cvm.getBook().getAuthor());
     }
 
-    protected void setupSpinners() {
-        this.pagesReadSpinner = new Spinner<>();
-        this.totalPagesSpinner = new Spinner<>();
-
+    protected void setupSpinners(Book book) {
         SpinnerValueFactory.IntegerSpinnerValueFactory factory1 =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, cvm.getBook().getCompletePages());
-
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                        1, Integer.MAX_VALUE,
+                        book.getCompletePages(), 1);
         pagesReadSpinner.setValueFactory(factory1);
 
         SpinnerValueFactory.IntegerSpinnerValueFactory factory2 =
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, cvm.getBook().getAllPages());
-
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                        1, Integer.MAX_VALUE,
+                        book.getAllPages(), 1);
         totalPagesSpinner.setValueFactory(factory2);
     }
 
@@ -159,9 +161,8 @@ public class ChangeWindow extends View {
 
     @Override
     public void setData(Book newBook) {
-        this.titleField.setText(newBook.getName());
-        this.authorField.setText(newBook.getAuthor());
-        setupSpinners();
+        fillingFields();
         this.ratings.setValue(newBook.getRating().getNameOfRating());
+        setupSpinners(newBook);
     }
 }
