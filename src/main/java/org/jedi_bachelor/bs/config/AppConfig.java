@@ -1,6 +1,5 @@
 package org.jedi_bachelor.bs.config;
 
-import org.jedi_bachelor.bs.factory.BookFactory;
 import org.jedi_bachelor.bs.model.Model;
 import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
 import org.jedi_bachelor.bs.viewmodel.*;
@@ -16,11 +15,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 public class AppConfig {
     @Autowired
     private Paths paths;
-
-    @Bean
-    public BookFactory bookFactory() {
-        return new BookFactory();
-    }
 
     @Bean
     public Paths paths() {

@@ -107,10 +107,10 @@ public class MainViewModel implements InteractWindowsInterface {
         // Обновление кол-ва оценок (+)
         ratingsViewModel.updateData();
 
-        // Обновление скорости
+        // Обновление скорости (+)
         mtvm.updateData();
 
-        // Обновление статистики
+        // Обновление статистики (+)
         msvm.updateData();
     }
 

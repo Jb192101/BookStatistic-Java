@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
-import org.jedi_bachelor.bs.factory.BookFactory;
 import org.jedi_bachelor.bs.utils.DataBaseConnectivity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ import java.util.Map;
 
 @Component
 public class Model {
-    @Autowired
-    private BookFactory bookFactory;
-
     private Map<Long, Book> books;
     private Map<Date, Integer> monthSpeed;
     private Map<Date, Integer> monthStat;
@@ -123,7 +119,7 @@ public class Model {
         books.put((long) books.size() + 1, newBook);
 
         // Добавление прочитанных страниц в статистику
-        System.out.println(newBook);
+        //System.out.println(newBook);
 
         addPagesAtMonthSpeed(newBook.getCompletePages());
         addPagesAtMonthStat(newBook.getCompletePages());
